@@ -199,13 +199,12 @@ export default function Home() {
                 Acesse agora e comece a resolver questões de concurso com nosso portal elegante
                 e intuitivo.
               </p>
-              <Button
-                size="lg"
-                onClick={() => (window.location.href = getLoginUrl())}
-              >
-                Entrar Agora
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
+              <Link href="/questions">
+                <Button size="lg">
+                  Começar a Responder Agora
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </Button>
+              </Link>
             </div>
           </section>
         )}
