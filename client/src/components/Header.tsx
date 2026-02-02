@@ -34,15 +34,11 @@ export default function Header() {
         
         <div className="flex items-center gap-4 self-center">
            <nav className="hidden md:flex items-center gap-6 mr-4">
-             <Link href="/questions">
-               <a className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-                 Questões
-               </a>
+             <Link href="/questions" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+               Questões
              </Link>
-             <Link href="/stats">
-               <a className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-                 Estatísticas
-               </a>
+             <Link href="/stats" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+               Estatísticas
              </Link>
            </nav>
 
