@@ -247,7 +247,14 @@ export default function Questions() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle>Questão {currentQuestionIndex + 1}</CardTitle>
+                  <CardTitle>
+                    Questão {currentQuestionIndex + 1}
+                    {currentQuestion.category && (
+                      <span className="ml-2 text-base font-medium text-muted-foreground">
+                        - {currentQuestion.category}
+                      </span>
+                    )}
+                  </CardTitle>
                   <CardDescription>
                     {currentQuestionIndex + 1} de {questions?.length || 0}
                   </CardDescription>
