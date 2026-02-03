@@ -1,126 +1,50 @@
-# Guia de Login - Painel Administrativo
+# Guia de Acesso Administrativo
 
-## Problema: Login não funciona em ambiente de desenvolvimento
+## Acesso ao Painel Admin
 
-Se você está tentando fazer login e o redirecionamento não funciona, siga este guia.
+O painel administrativo permite gerenciar questões, categorias, bancas e visualizar estatísticas.
 
-## Solução 1: Usar a URL Pública do Manus
+### Como Acessar
 
-O portal está hospedado em um servidor Manus com uma URL pública. Para fazer login corretamente:
+1. Acesse a URL: `/admin`
+2. Se não estiver logado, você será redirecionado para `/admin/login`
+3. Digite a senha de administrador
 
-1. **Acesse a URL pública** do seu portal (fornecida pelo Manus)
-   - Exemplo: `https://3000-xxxxx.sg1.manus.computer`
+### Credenciais Padrão
 
-2. **Clique em "Entrar para Começar"**
-   - Você será redirecionado para `https://manus.im/app-auth`
+A senha padrão para o ambiente de desenvolvimento é:
+**`Cl050223*`**
 
-3. **Faça login com sua conta Manus**
-   - Se não tiver conta, crie uma em `https://manus.im`
-
-4. **Após autenticação**
-   - Você será redirecionado de volta para o portal
-   - Um cookie de sessão será criado
-   - Você verá os botões "Começar a Responder", "Ver Estatísticas" e "Painel Admin"
-
-5. **Acesse o Painel Admin**
-   - Clique no botão "Painel Admin"
-   - Você será levado para `/admin` com acesso completo
-
-## Solução 2: Modo Desenvolvimento (Bypass de Login)
-
-Se você está desenvolvendo localmente e quer testar sem fazer login real:
-
-### Opção A: Usar localStorage para simular login
-
-Abra o console do navegador (F12) e execute:
-
-```javascript
-// Simular usuário admin no localStorage
-const adminUser = {
-  id: 1,
-  openId: "RHwVo4s4KUtvcoohsziZir", // OWNER_OPEN_ID
-  name: "Admin User",
-  email: "admin@example.com",
-  role: "admin",
-  createdAt: new Date().toISOString(),
-  updatedAt: new Date().toISOString(),
-  lastSignedIn: new Date().toISOString()
-};
-
-localStorage.setItem("manus-runtime-user-info", JSON.stringify(adminUser));
-
-// Recarregar a página
-window.location.reload();
-```
-
-Após executar, recarregue a página e você verá o botão "Painel Admin".
-
-### Opção B: Criar rota de teste (não recomendado para produção)
-
-Se precisar de um bypass permanente, você pode adicionar uma rota de teste no backend:
-
-```typescript
-// Em server/_core/index.ts, adicione:
-app.get("/api/test/login", (req, res) => {
-  const sessionToken = await sdk.createSessionToken("RHwVo4s4KUtvcoohsziZir", {
-    name: "Admin User",
-  });
-  
-  const cookieOptions = getSessionCookieOptions(req);
-  res.cookie(COOKIE_NAME, sessionToken, { ...cookieOptions, maxAge: ONE_YEAR_MS });
-  res.redirect("/");
-});
-```
-
-Então acesse: `http://localhost:3000/api/test/login`
-
-## Verificar Status de Login
-
-Para verificar se você está logado:
-
-1. Abra o console do navegador (F12)
-2. Vá para a aba "Application" → "Cookies"
-3. Procure por um cookie chamado `session` ou similar
-4. Se existir, você está logado
-5. Verifique também o localStorage por `manus-runtime-user-info`
+> **Nota de Segurança**: Em produção, certifique-se de configurar a variável de ambiente `ADMIN_PASSWORD` com uma senha forte.
 
 ## Troubleshooting
 
-### "Entrar para Começar" não faz nada
-- Verifique se as variáveis de ambiente estão corretas:
-  - `VITE_OAUTH_PORTAL_URL` deve ser `https://manus.im`
-  - `VITE_APP_ID` deve estar preenchido
-- Verifique o console do navegador (F12) para erros de JavaScript
+### Login Falha (Senha Incorreta)
 
-### Redirecionamento para OAuth não funciona
-- Certifique-se de que está usando a URL pública do Manus
-- URLs locais (localhost:3000) não funcionam com OAuth
-- O callback deve ser acessível publicamente
+1. Verifique se a variável de ambiente `ADMIN_PASSWORD` está configurada no arquivo `.env`.
+2. Se não estiver configurada, a senha padrão acima será utilizada.
+3. Verifique se o caps lock está ativado.
 
-### Cookie não persiste após login
-- Verifique se o navegador permite cookies de terceiros
-- Certifique-se de que está usando HTTPS (não HTTP)
-- Verifique as opções de cookie em `server/_core/cookies.ts`
+### Sessão não Persiste
 
-## Acessar o Painel Admin Diretamente
+O sistema utiliza cookies `httpOnly` para segurança.
 
-Se você já está logado, pode acessar diretamente:
+1. Verifique se o navegador está aceitando cookies.
+2. Em ambiente de desenvolvimento (`localhost`), certifique-se de que não há bloqueios de cookies de terceiros se estiver usando portas diferentes (embora o projeto agora use porta única 3000).
 
-- **URL**: `/admin` ou `/admin/`
-- **Exemplo**: `https://seu-portal.com/admin`
+### Debugging
 
-Se não estiver logado, será redirecionado para a home.
+Para verificar o estado da autenticação no frontend:
 
-## Próximas Etapas
+1. Abra o Console do Desenvolvedor (F12)
+2. Vá para a aba **Application** > **Local Storage**
+3. Procure pela chave `portal-runtime-user-info`
+   - Esta chave contém os dados públicos do usuário logado (cache client-side)
+4. Vá para a aba **Network** e verifique a requisição para `/api/trpc/auth.me`
 
-Após fazer login com sucesso:
+## Rotas Importantes
 
-1. Vá para o **Painel Admin**
-2. Clique na aba **Dashboard** para ver estatísticas
-3. Clique na aba **Questões** para gerenciar questões
-4. Use o botão **"Nova Questão"** para adicionar questões
-5. Configure **Categorias**, **Bancas** e **Anúncios** conforme necessário
-
----
-
-**Nota**: O sistema usa OAuth Manus para autenticação. Você precisa ter uma conta Manus válida para fazer login. Se não tiver, crie uma em `https://manus.im`.
+- `/admin`: Dashboard principal
+- `/admin/login`: Tela de login
+- `/admin/questions`: Gerenciamento de questões
+- `/`: Página inicial pública

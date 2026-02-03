@@ -1,5 +1,5 @@
 /**
- * Manus Debug Collector (agent-friendly)
+ * Debug Collector (agent-friendly)
  *
  * Captures:
  * 1) Console logs
