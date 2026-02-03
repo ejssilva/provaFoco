@@ -18,7 +18,7 @@ export default function Home() {
         description="Plataforma completa para resolução de questões de concurso público. Português, Matemática, Informática. Pratique com questões reais de CESPE, FCC, FGV e mais."
         keywords="questões concurso, concurso público, português, matemática, informática, CESPE, FCC, FGV"
         ogImage="https://via.placeholder.com/1200x630"
-        canonicalUrl="https://prova-foco.manus.space"
+        canonicalUrl="https://prova-foco.com"
       />
 
       <div className="min-h-screen bg-linear-to-b from-background to-muted/20">

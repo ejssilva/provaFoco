@@ -1,0 +1,16 @@
+services:
+  app:
+    build: .
+    container_name: prova-foco-app
+    ports:
+      - "80:3000"
+    volumes:
+      - ./data:/data
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DATABASE_URL=/data/sqlite.db
+      - JWT_SECRET=change_me_to_something_secure
+      # Se usar autenticação externa, adicione:
+      # - OAUTH_SERVER_URL=...
+    restart: always

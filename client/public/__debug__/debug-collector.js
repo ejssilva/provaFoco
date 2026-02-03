@@ -6,20 +6,20 @@
  * 2) Network requests (fetch + XHR)
  * 3) User interactions (semantic uiEvents: click/type/submit/nav/scroll/etc.)
  *
- * Data is periodically sent to /__manus__/logs
+ * Data is periodically sent to /__debug__/logs
  * Note: uiEvents are mirrored to sessionEvents for sessionReplay.log
  */
 (function () {
   "use strict";
 
   // Prevent double initialization
-  if (window.__MANUS_DEBUG_COLLECTOR__) return;
+  if (window.__DEBUG_COLLECTOR__) return;
 
   // ==========================================================================
   // Configuration
   // ==========================================================================
   const CONFIG = {
-    reportEndpoint: "/__manus__/logs",
+  reportEndpoint: "/__debug__/logs",
     bufferSize: {
       console: 500,
       network: 200,
@@ -811,7 +811,7 @@
   }
 
   // Mark as initialized
-  window.__MANUS_DEBUG_COLLECTOR__ = {
+  window.__DEBUG_COLLECTOR__ = {
     version: "2.0-no-rrweb",
     store: store,
     forceReport: reportLogs,
