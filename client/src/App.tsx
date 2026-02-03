@@ -9,6 +9,7 @@ import AdminPanel from "./pages/AdminPanel";
 import AdminLogin from "./pages/AdminLogin";
 import Questions from "./pages/Questions";
 import Stats from "./pages/Stats";
+import QuestionDetail from "./pages/QuestionDetail";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -16,6 +17,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/questions" component={Questions} />
+      <Route path="/question/:id" component={QuestionDetail} />
       <Route path="/stats" component={Stats} />
       <Route path="/admin" component={AdminPanel} />
       <Route path="/admin/login" component={AdminLogin} />

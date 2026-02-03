@@ -14,11 +14,11 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="Prova Foco - Prepare-se para Sua Prova"
-        description="Plataforma completa para resolução de questões de concurso público. Português, Matemática, Informática. Pratique com questões reais de CESPE, FCC, FGV e mais."
-        keywords="questões concurso, concurso público, português, matemática, informática, CESPE, FCC, FGV"
-        ogImage="https://via.placeholder.com/1200x630"
-        canonicalUrl="https://prova-foco.com"
+        title="Prova Foco - Questões de Concurso Público | CESPE, FGV, FCC"
+        description="Portal de questões de concursos públicos com milhares de questões comentadas. Prepare-se para CESPE, FGV, FCC, Vunesp e outras bancas. Resolução de questões grátis."
+        keywords="questões de concurso, simulado concurso, provas concurso, questões comentadas, cespe, fgv, fcc, concurso público"
+        ogImage="https://provafoco.com.br/og-image.jpg"
+        canonicalUrl="https://provafoco.com.br"
       />
 
       <div className="min-h-screen bg-linear-to-b from-background to-muted/20">

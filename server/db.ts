@@ -1,8 +1,15 @@
 import { eq, and, like, desc, asc, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import { createRequire } from "module";
+import path from "path";
+import { fileURLToPath } from "url";
+
 const require = createRequire(import.meta.url);
 const Database = require("better-sqlite3");
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 import {
   InsertUser,
   users,
@@ -24,8 +31,22 @@ let _db: ReturnType<typeof drizzle> | null = null;
 export async function getDb() {
   if (!_db) {
     try {
-      const dbUrl = process.env.DATABASE_URL || "sqlite.db";
-      const sqlite = new Database(dbUrl);
+      let dbPath = process.env.DATABASE_URL || path.join(__dirname, "..", "sqlite.db");
+      
+      // Handle "file:" prefix which might be injected by some environments
+      if (dbPath.startsWith("file:")) {
+        dbPath = dbPath.replace(/^file:/, "");
+      }
+      
+      // Ensure absolute path if it looks like a filename
+      if (!path.isAbsolute(dbPath)) {
+        dbPath = path.resolve(process.cwd(), dbPath);
+      }
+
+      console.log("[Database] Connecting to:", dbPath);
+      const sqlite = new Database(dbPath);
+      const tables = sqlite.prepare("SELECT name FROM sqlite_master WHERE type='table'").all();
+      console.log("[Database] Tables found:", tables.map(t => t.name));
       _db = drizzle(sqlite);
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);

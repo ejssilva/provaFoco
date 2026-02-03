@@ -4,8 +4,9 @@ Disallow: /admin
 Disallow: /api
 Disallow: /*.json$
 Disallow: /*.xml$
+Allow: /sitemap.xml
 
-Sitemap: /sitemap.xml
+Sitemap: https://provafoco.com.br/sitemap.xml
 
 # Crawl delay (in seconds)
 Crawl-delay: 1
